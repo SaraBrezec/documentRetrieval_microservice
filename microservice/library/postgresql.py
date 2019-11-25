@@ -15,6 +15,39 @@ class PostgresQL:
         self.port = port
 
 
+    def db_query(self,query_words):
+        """ From database returns list of dictionaries containing document IDs and text. Documents contain at least one query word.
+        Args:
+            query_words(list): List of query words
+        Returns: 
+            documents(list): list of dictionaries containing document IDs and text"""
+        output = '|'.join(query_words)
+        SQL = """
+                SELECT document_id, fulltext_cleaned FROM documents
+                WHERE to_tsvector('english', fulltext_cleaned) @@ to_tsquery('english',""" + '\''+ output + '\'' + """);"""
+        documents = self.execute(SQL)
+        return(documents)
+
+    def db_return_docs_metadata(self, metric_fn_output):
+        """From database returns document metadata.
+        Args:
+            metric_fn_output(list): List of tuples (output of metric function). First tuple element is document ID, second id document metric score.
+        Returns: 
+            docs_metadata(list): list of dictionaries containing document source, date, title, celex_num and full text link (docs sorted by relavance)."""
+        ids = []
+        for tupl in metric_fn_output:
+            ids.append(tupl[0])
+        t = tuple(ids)
+        SQL = """SELECT document_id, document_source, date, title, celex_num, fulltextlink FROM documents WHERE document_id IN {}""".format(t)
+        docs_metadata = pg.execute(SQL)
+        metadata_sorted = [None] * len(ids)
+        for elt in docs_metadata:
+            id_ = elt.get('document_id')
+            position = ids.index(id_)
+            metadata_sorted[position] = {k:elt[k] for k in ('document_source', 'date', 'title', 'celex_num', 'fulltextlink')}
+        return metadata_sorted
+
+
     def connect(self, database, password, user="postgres"):
         """Connects to the database with the provided user and password
 

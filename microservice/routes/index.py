@@ -27,11 +27,9 @@ def dated_url_for(endpoint, **values):
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
 
-# TODO: setup the index route
+# a morm kle se kej
 @bp.route('/', methods=['GET'])
 def index():
-    # get the documentation information
-    # TODO: get appropriate app configurations
     HOST = app.config['HOST'] if 'HOST' in app.config else '127.0.0.1'
     PORT = app.config['PORT'] if 'PORT' in app.config else '5000'
 

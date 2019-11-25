@@ -19,24 +19,36 @@ class Config(object):
 class ProductionConfig(Config):
     """Production configuration"""
 
-    # TODO: add required secret configurations
+
+    # done
     ENV='production'
     SECRET_KEY=os.getenv('PROD_SECRET_KEY')
+    DATABASE={
+        'database': os.getenv('PROD_PG_DATABASE'),
+        'password': os.getenv('PROD_PG_PASSWORD')
+    }
 
 
 class DevelopmentConfig(Config):
     """Development configuration"""
 
-    # TODO: add required secret configurations
+    # done
     ENV='development'
     DEBUG = True
     SECRET_KEY=os.getenv('DEV_SECRET_KEY')
+    DATABASE={
+        'database': os.getenv('DEV_PG_DATABASE'),
+        'password': os.getenv('DEV_PG_PASSWORD')
+    }
 
 
 class TestingConfig(Config):
     """Testing configuration"""
 
-    # TODO: add required secret configurations
+    # done
     ENV='testing'
     TESTING = True
     SECRET_KEY=os.getenv('TEST_SECRET_KEY')
+    DATABASE={
+        'database': os.getenv('TEST_PG_DATABASE'),
+        'password': os.getenv('TEST_PG_PASSWORD')
