@@ -48,35 +48,30 @@ def index():
 
 @bp.route('/retrieval', methods=['GET', 'POST'])
 def retrieval():
-    # a je treba tukaj kje locit a pride stvar od userja al od drugega microservica
+
 
     tokens = None
-    #tfidf_function = None
     m = None
     if request.method == 'GET':
         
         query=request.args.get('query', default='', type=str)
-        tokens= query.split()
-       # tfidf_function= request.args.get('tfidf_function', default='', type=str)
+        tokens= query.split() #change latere to QE
         m= request.args.get('m', default='', type=int)
     elif request.method == 'POST':
         
         tokens = request.json['tokens']
-       # tfidf_function = request.json['tfidf_function']
         m = request.json['m']
     else:
         # TODO: log exception
         return abort(405)
 
     try:
-        # TO OBVEZNO POPRAVI!!!
         db = config_db.get_db()
-        #model.connect('envirolens', 'dbpass', user="postgres")
         docs = db.db_query(tokens)
         texts = change_dict_structure(docs) 
         tfidf_score = tfidf_score_str(tokens,texts,'tfidf_sum',m) 
         metadata = db.db_return_docs_metadata(tfidf_score)
-        #config_db.close_db()
+
     except Exception as e:
         # TODO: log exception
         # something went wrong with the request
@@ -84,6 +79,6 @@ def retrieval():
     else:
         # TODO: return the response
         return jsonify({
-            "docs_metadata": metadata
+            "documents_metadata": metadata
         })
 

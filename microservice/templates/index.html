@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col title__block">
           <h1 class="title text-center">Microservice</h1>
-          <h5 class="title text-center">Converting text into semantic vectors</h5>
+          <h5 class="title text-center">Document retrieval</h5>
         </div>
       </div>
 
@@ -36,10 +36,10 @@
           </div>
 
           <h3 class="doc doc__section mt-5">
-            Text Embedding REST API
+            Document retrieval REST API
           </h3>
           <p class="information">
-            The Text Embedding REST API allows the user to retrieve the text embeddings of a given text.
+            The Document retrieval REST API allows the user to retrieve relavant documents based on a given query.
           </p>
 
           <h6 class="mt-2">
@@ -58,13 +58,13 @@
               <tbody>
                 <tr class="clickable-row" data-href="#get-create-text-embedding">
                   <td><b class="doc">GET</b></td>
-                  <td>/embeddings/create</td>
-                  <td>Create the text embedding</td>
+                  <td>/docRetrieval/retrieval</td>
+                  <td>Retrive relavant documents</td>
                 </tr>
                 <tr class="clickable-row" data-href="#post-create-text-embedding">
                     <td><b class="doc">POST</b></td>
-                    <td>/embeddings/create</td>
-                    <td>Create the text embedding (similar to the GET request)</td>
+                    <td>/docRetrieval/retrieval</td>
+                    <td>Retrive relavant documents (similar to the GET request)</td>
                   </tr>
               </tbody>
             </table>
@@ -72,7 +72,7 @@
 
           <a class="anchor" id="get-create-text-embedding"></a>
           <h5 class="doc doc__subsection mt-5 mb-3">
-              Create the text embedding
+              Retrive relavant documents
           </h5>
 
           <div class="table-responsive">
@@ -86,7 +86,7 @@
               <tbody>
                 <tr>
                   <td><b class="doc">GET</b></td>
-                  <td><b>/embeddings/create</b></td>
+                  <td><b>/docRetrieval/retrieval</b></td>
                 </tr>
               </tbody>
             </table>
@@ -107,7 +107,7 @@
               <tbody>
 
                 <tr>
-                  <td><b class="doc">text</b></td>
+                  <td><b class="doc">query</b></td>
                   <td>
                     <span class="doc doc--small">Type:</span> String
                   </td>
@@ -118,23 +118,23 @@
                     <span class="doc doc--small">Optional:</span> false
                   </td>
                   <td>
-                    The text for which we wish to retrieve the text embedding.
+                    The query for which we wish to retrieve documents
                   </td>
                 </tr>
 
                 <tr>
-                  <td><b class="doc">language</b></td>
+                  <td><b class="doc">m</b></td>
                   <td>
-                    <span class="doc doc--small">Type:</span> String
+                    <span class="doc doc--small">Type:</span> Integer
                   </td>
                   <td>
-                    <span class="doc doc--small">Title:</span> Text Language
+                    <span class="doc doc--small">Title:</span> Number of retrieved documents.
                   </td>
                   <td>
                     <span class="doc doc--small">Optional:</span> true
                   </td>
                   <td>
-                    The language of the provided text.
+                    Number of retrieved documents.
                   </td>
                 </tr>
 
@@ -155,123 +155,120 @@
                 </tr>
               </thead>
               <tbody>
+                  <tr>
+                      <td><b class="doc">documents_metadata</b></td>
+                      <td>
+                          <span class="doc doc--small">Type:</span> List
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Title:</span> Metadata of the retrieved documents.
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Read only:</span> true
+                      </td>
+                      <td>
+                          Metadata of m most relavant documents sorted descending.
+                      </td>
+                  </tr>
 
-                <tr>
-                  <td><b class="doc">language_model</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> String
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Language Model
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    The language model used to create the text embedding.
-                  </td>
-                </tr>
+                  <tr class="no-top-border">
+                      <td colspan="5">
 
-                <tr>
-                  <td><b class="doc">tokens</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Tokens
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    An array of objects, each representing a non-stopword token of the provided text.
-                  </td>
-                </tr>
+                          <b class="doc">documents_metadata item properties</b>
 
-                <tr class="no-top-border">
-                  <td colspan="5">
+                          <table class="table table-dashed-borders table--second-level">
+                              <thead>
+                                  <tr>
+                                      <th class="doc doc__query name"></th>
+                                      <th class="doc doc__query type"></th>
+                                      <th class="doc doc__query title"></th>
+                                      <th class="doc doc__query optional"></th>
+                                      <th class="doc doc__query description"></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td><b class="doc">document_source</b></td>
+                                      <td>
+                                          <span class="doc doc--small">Type:</span> String
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Title:</span> Source database.
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Read only:</span> true
+                                      </td>
+                                      <td>
+                                          Name of the document source database.
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td><b class="doc">date</b></td>
+                                      <td>
+                                          <span class="doc doc--small">Type:</span> String
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Title:</span> Document date.
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Read only:</span> true
+                                      </td>
+                                      <td>
+                                          Date of the document.
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td><b class="doc">title</b></td>
+                                      <td>
+                                          <span class="doc doc--small">Type:</span> String
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Title:</span> Document title.
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Read only:</span> true
+                                      </td>
+                                      <td>
+                                          Title of the document.
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td><b class="doc">celex_num</b></td>
+                                      <td>
+                                          <span class="doc doc--small">Type:</span> String
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Title:</span> Celex number.
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Read only:</span> true
+                                      </td>
+                                      <td>
+                                          Celex number of the document if exists, otherwise None.
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td><b class="doc">fulltextlink</b></td>
+                                      <td>
+                                          <span class="doc doc--small">Type:</span> String
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Title:</span> Document link.
+                                      </td>
+                                      <td>
+                                          <span class="doc doc--small">Read only:</span> true
+                                      </td>
+                                      <td>
+                                          Link to the document corpus.
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
 
-                    <b class="doc">tokens item properties</b>
+                      </td>
+                  </tr>
 
-                    <table class="table table-dashed-borders table--second-level">
-                      <thead>
-                        <tr>
-                          <th class="doc doc__query name"></th>
-                          <th class="doc doc__query type"></th>
-                          <th class="doc doc__query title"></th>
-                          <th class="doc doc__query optional"></th>
-                          <th class="doc doc__query description"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><b class="doc">token</b></td>
-                          <td>
-                            <span class="doc doc--small">Type:</span> String
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Title:</span> Token Name
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Read only:</span> true
-                          </td>
-                          <td>
-                            The non-stopword token name.
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td><b class="doc">count</b></td>
-                          <td>
-                            <span class="doc doc--small">Type:</span> Integer
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Title:</span> Token Count
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Read only:</span> true
-                          </td>
-                          <td>
-                              The frequency of the token in the original text.
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><b class="doc">embedding</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Text Embedding
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    An array of floats representing the text embedding.
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><b class="doc">text</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Source Text
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    The original source text.
-                  </td>
-                </tr>
+               
 
               </tbody>
             </table>
@@ -279,7 +276,7 @@
 
           <a class="anchor" id="post-create-text-embedding"></a>
           <h5 class="doc doc__subsection mt-5 mb-3">
-              Create the text embedding
+              Retrive relavant documents
           </h5>
 
           <div class="table-responsive">
@@ -293,7 +290,7 @@
               <tbody>
                 <tr>
                   <td><b class="doc">POST</b></td>
-                  <td><b>/embeddings/create</b></td>
+                  <td><b>/docRetrieval/retrieval</b></td>
                 </tr>
               </tbody>
             </table>
@@ -313,37 +310,38 @@
               </thead>
               <tbody>
 
-                <tr>
-                  <td><b class="doc">text</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> String
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Query Text
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Optional:</span> false
-                  </td>
-                  <td>
-                    The text for which we wish to retrieve the text embedding.
-                  </td>
-                </tr>
+                  <tr>
+                      <td><b class="doc">query</b></td>
+                      <td>
+                          <span class="doc doc--small">Type:</span> String
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Title:</span> Query Text
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Optional:</span> false
+                      </td>
+                      <td>
+                          The query for which we wish to retrieve documents
+                      </td>
+                  </tr>
 
-                <tr>
-                  <td><b class="doc">language</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> String
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Text Language
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Optional:</span> true
-                  </td>
-                  <td>
-                    The language of the provided text.
-                  </td>
-                </tr>
+                  <tr>
+                      <td><b class="doc">m</b></td>
+                      <td>
+                          <span class="doc doc--small">Type:</span> Integer
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Title:</span> Number of retrieved documents.
+                      </td>
+                      <td>
+                          <span class="doc doc--small">Optional:</span> true
+                      </td>
+                      <td>
+                          Number of retrieved documents.
+                      </td>
+                  </tr>
+             
 
               </tbody>
             </table>
@@ -361,128 +359,125 @@
                   <th class="doc doc__query description"></th>
                 </tr>
               </thead>
-              <tbody>
+                <tbody>
 
-                <tr>
-                  <td><b class="doc">language_model</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> String
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Language Model
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    The language model used to create the text embedding.
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><b class="doc">tokens</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Tokens
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    An array of objects, each representing a non-stopword token of the provided text.
-                  </td>
-                </tr>
-
-                <tr class="no-top-border">
-                  <td colspan="5">
-
-                    <b class="doc">tokens object properties</b>
-
-                    <table class="table table-dashed-borders table--second-level">
-                      <thead>
-                        <tr>
-                          <th class="doc doc__query name"></th>
-                          <th class="doc doc__query type"></th>
-                          <th class="doc doc__query title"></th>
-                          <th class="doc doc__query optional"></th>
-                          <th class="doc doc__query description"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><b class="doc">token</b></td>
-                          <td>
-                            <span class="doc doc--small">Type:</span> String
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Title:</span> Token Name
-                          </td>
-                          <td>
+                    <tr>
+                        <td><b class="doc">documents_metadata</b></td>
+                        <td>
+                            <span class="doc doc--small">Type:</span> List
+                        </td>
+                        <td>
+                            <span class="doc doc--small">Title:</span> Metadata of the retrieved documents.
+                        </td>
+                        <td>
                             <span class="doc doc--small">Read only:</span> true
-                          </td>
-                          <td>
-                            The non-stopword token name.
-                          </td>
-                        </tr>
+                        </td>
+                        <td>
+                            Metadata of m most relavant documents sorted descending.
+                        </td>
+                    </tr>
 
-                        <tr>
-                          <td><b class="doc">count</b></td>
-                          <td>
-                            <span class="doc doc--small">Type:</span> Integer
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Title:</span> Token Count
-                          </td>
-                          <td>
-                            <span class="doc doc--small">Read only:</span> true
-                          </td>
-                          <td>
-                              The frequency of the token in the original text.
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <tr class="no-top-border">
+                        <td colspan="5">
 
-                  </td>
-                </tr>
+                            <b class="doc">documents_metadata item properties</b>
 
-                <tr>
-                  <td><b class="doc">embedding</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Text Embedding
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    An array of floats representing the text embedding.
-                  </td>
-                </tr>
+                            <table class="table table-dashed-borders table--second-level">
+                                <thead>
+                                    <tr>
+                                        <th class="doc doc__query name"></th>
+                                        <th class="doc doc__query type"></th>
+                                        <th class="doc doc__query title"></th>
+                                        <th class="doc doc__query optional"></th>
+                                        <th class="doc doc__query description"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b class="doc">document_source</b></td>
+                                        <td>
+                                            <span class="doc doc--small">Type:</span> String
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Title:</span> Source database.
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Read only:</span> true
+                                        </td>
+                                        <td>
+                                            Name of the document source database.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b class="doc">date</b></td> 
+                                        <td>
+                                            <span class="doc doc--small">Type:</span> String
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Title:</span> Document date.
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Read only:</span> true
+                                        </td>
+                                        <td>
+                                            Date of the document.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b class="doc">title</b></td>
+                                        <td>
+                                            <span class="doc doc--small">Type:</span> String
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Title:</span> Document title.
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Read only:</span> true
+                                        </td>
+                                        <td>
+                                            Title of the document.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b class="doc">celex_num</b></td>
+                                        <td>
+                                            <span class="doc doc--small">Type:</span> String
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Title:</span> Celex number.
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Read only:</span> true
+                                        </td>
+                                        <td>
+                                            Celex number of the document if exists, otherwise None.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b class="doc">fulltextlink</b></td>
+                                        <td>
+                                            <span class="doc doc--small">Type:</span> String
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Title:</span> Document link.
+                                        </td>
+                                        <td>
+                                            <span class="doc doc--small">Read only:</span> true
+                                        </td>
+                                        <td>
+                                            Link to the document corpus.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                <tr>
-                  <td><b class="doc">text</b></td>
-                  <td>
-                    <span class="doc doc--small">Type:</span> Array
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Title:</span> Source Text
-                  </td>
-                  <td>
-                    <span class="doc doc--small">Read only:</span> true
-                  </td>
-                  <td>
-                    The original source text.
-                  </td>
-                </tr>
+                        </td>
+                    </tr>
 
-              </tbody>
-            </table>
-          </div>
+
+                </tbody>
+                            </table>
+</div>
 
         </div>
 
