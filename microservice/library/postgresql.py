@@ -34,19 +34,20 @@ class PostgresQL:
             metric_fn_output(list): List of tuples (output of metric function). First tuple element is document ID, second id document metric score.
         Returns: 
             docs_metadata(list): list of dictionaries containing document source, date, title, celex_num and full text link (docs sorted by relavance)."""
+
         ids = []
+
         for tupl in metric_fn_output:
             ids.append(tupl[0])
         t = tuple(ids)
-        SQL = """SELECT document_id, document_source, date, title, celex_num, fulltextlink FROM documents WHERE document_id IN {}""".format(t)
-        docs_metadata = pg.execute(SQL)
+        SQL = """SELECT document_id,document_source, date, title, celex_num, fulltextlink FROM documents WHERE document_id IN {}""".format(t)
+        docs_metadata = self.execute(SQL)
         metadata_sorted = [None] * len(ids)
         for elt in docs_metadata:
             id_ = elt.get('document_id')
             position = ids.index(id_)
             metadata_sorted[position] = {k:elt[k] for k in ('document_source', 'date', 'title', 'celex_num', 'fulltextlink')}
         return metadata_sorted
-
 
     def connect(self, database, password, user="postgres"):
         """Connects to the database with the provided user and password

@@ -277,10 +277,11 @@ def tfidf_sum_weight(probability,  token_frequency, n, idf, word, alpha, origina
 
 
 def tfidf_score_str(tokens,texts,tfidf_function_name,m,*args):
-    # TO DO
     """Takes function name as input, returns function"""
-        if tfidf_function_name == 'tfidf_sum':
+    if tfidf_function_name == 'tfidf_sum':
             return tfidf_score(tokens,texts,tfidf_sum,m)
+    else:
+        print("Error, different fn name")
 
 def tfidf_score(tokens, texts, tfidf_function,m, *args):
     #final function

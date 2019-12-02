@@ -2,7 +2,7 @@
 # Routes related to creatiung text embeddings
 
 import sys
-from documentRetrieval import tfidf_score
+
 
 from flask import (
     Blueprint, flash, g, redirect, request, session, url_for, jsonify, current_app as app
@@ -13,9 +13,12 @@ from werkzeug.exceptions import abort
 #################################################
 # Initialize the models
 #################################################
+# get the database configuration object
+from ..config import config_db
 
 
-from ..library.documentRetrieval import tfidf_score
+
+from ..library.documentRetrieval import tfidf_score_str
 from ..library.documentRetrieval import change_dict_structure
 from ..library.postgresql import PostgresQL
 
@@ -52,9 +55,10 @@ def retrieval():
     m = None
     if request.method == 'GET':
         
-        tokens=request.args.get('tokens', default='', type=str)
+        query=request.args.get('query', default='', type=str)
+        tokens= query.split()
        # tfidf_function= request.args.get('tfidf_function', default='', type=str)
-        m= request.args.get('m', default='', type=str)
+        m= request.args.get('m', default='', type=int)
     elif request.method == 'POST':
         
         tokens = request.json['tokens']
@@ -65,10 +69,14 @@ def retrieval():
         return abort(405)
 
     try:
-        docs = model.db_query(tokens)
-        texts = change_dict_structure(docs)
-        tfidf_score = tfidf_score_str(tokens,texts,'tfidf_sum',m)
-        metadata = model.db_return_docs_metadata(tfidf_score)
+        # TO OBVEZNO POPRAVI!!!
+        db = config_db.get_db()
+        #model.connect('envirolens', 'dbpass', user="postgres")
+        docs = db.db_query(tokens)
+        texts = change_dict_structure(docs) 
+        tfidf_score = tfidf_score_str(tokens,texts,'tfidf_sum',m) 
+        metadata = db.db_return_docs_metadata(tfidf_score)
+        #config_db.close_db()
     except Exception as e:
         # TODO: log exception
         # something went wrong with the request

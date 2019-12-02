@@ -52,3 +52,4 @@ class TestingConfig(Config):
     DATABASE={
         'database': os.getenv('TEST_PG_DATABASE'),
         'password': os.getenv('TEST_PG_PASSWORD')
+     }
