@@ -50,16 +50,17 @@ def index():
 def retrieval():
 
 
-    tokens = None
+    query = None
     m = None
     if request.method == 'GET':
         
         query=request.args.get('query', default='', type=str)
         tokens= query.split() #change latere to QE
-        m= request.args.get('m', default='', type=int)
+        m= request.args.get('m', default=10, type=int)
     elif request.method == 'POST':
         
-        tokens = request.json['tokens']
+        query=request.json['query']
+        tokens= query.split() #change latere to QE
         m = request.json['m']
     else:
         # TODO: log exception

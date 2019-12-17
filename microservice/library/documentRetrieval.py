@@ -283,7 +283,7 @@ def tfidf_score_str(tokens,texts,tfidf_function_name,m = 10,*args):
     else:
         print("Error, different fn name")
 
-def tfidf_score(tokens, texts, tfidf_function,m, *args):
+def tfidf_score(tokens, texts, tfidf_function,m = 10, *args):
     #final function
     """Assigns score to documents based on tfidf_function metric.
     Args:
