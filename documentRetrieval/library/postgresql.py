@@ -28,6 +28,13 @@ class PostgresQL:
         documents = self.execute(SQL)
         return(documents)
 
+    def db_nb_docs(self):
+        SQL = """
+                SELECT COUNT(*) FROM documents;"""
+        leng = self.execute(SQL)
+        leng = leng[0].get('count')
+        return(leng)
+
     def db_return_docs_metadata(self, metric_fn_output):
         """From database returns document metadata.
         Args:
